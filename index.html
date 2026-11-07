@@ -1,0 +1,1292 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Nova — A Story by Shehad</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600&family=Noto+Serif+Bengali:wght@500;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{color-scheme:dark;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:inherit}
+
+html{
+ width:100%;
+ min-height:100%;
+ -webkit-text-size-adjust:100%;
+ text-size-adjust:100%;
+ scroll-behavior:smooth;
+}
+
+body{
+ background:#05050a;
+ color:#f3efe6;
+ font-family:'Hind Siliguri',sans-serif;
+ height:2400vh;
+ width:100%;
+ min-width:320px;
+ overflow-x:hidden;
+ overscroll-behavior-x:none;
+ -webkit-overflow-scrolling:touch;
+ touch-action:pan-y;
+}
+
+canvas{
+ position:fixed;
+ inset:0;
+ width:100vw;
+ height:100vh;
+ height:100dvh;
+ display:block;
+}
+
+.grain{
+ position:fixed;
+ inset:-50%;
+ pointer-events:none;
+ opacity:.08;
+ animation:grain .8s steps(5) infinite;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes grain{
+ 0%{transform:translate(0,0)}
+ 33%{transform:translate(-3%,2%)}
+ 66%{transform:translate(2%,-3%)}
+ 100%{transform:translate(3%,3%)}
+}
+
+.vig{
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.8));
+}
+
+.bar{
+ position:fixed;
+ left:0;
+ right:0;
+ height:8vh;
+ background:#000;
+ z-index:2;
+}
+
+.bar.t{top:0}
+.bar.b{bottom:0}
+
+#flash{
+ position:fixed;
+ inset:0;
+ background:#f00;
+ opacity:0;
+ pointer-events:none;
+ mix-blend-mode:screen;
+}
+
+#chap{
+ position:fixed;
+ top:calc(8vh + 1rem);
+ left:1.2rem;
+ font-size:.75rem;
+ letter-spacing:.25em;
+ color:#ffc34d;
+ opacity:.8;
+ z-index:5;
+}
+
+#bar{
+ position:fixed;
+ top:8vh;
+ left:0;
+ height:2px;
+ background:#ffc34d;
+ width:0;
+ z-index:6;
+}
+
+#sub{
+ position:fixed;
+ left:0;
+ right:0;
+ bottom:calc(8vh + 2rem);
+ text-align:center;
+ padding:0 6vw;
+ pointer-events:none;
+ z-index:5;
+}
+
+#sub .who{
+ display:block;
+ font-size:.8rem;
+ letter-spacing:.35em;
+ margin-bottom:.7rem;
+ opacity:.7;
+}
+
+#sub .tx{
+ font-family:'Noto Serif Bengali',serif;
+ font-weight:500;
+ font-size:clamp(1.15rem,3.2vw,2.1rem);
+ line-height:1.7;
+ text-shadow:0 2px 20px #000;
+}
+
+#sub.show{animation:appear 1.2s both}
+
+@keyframes appear{
+ from{
+  opacity:0;
+  transform:translateY(20px);
+  filter:blur(8px);
+ }
+ to{
+  opacity:1;
+  transform:none;
+  filter:none;
+ }
+}
+
+#sub.big .tx{
+ font-size:clamp(1.5rem,4.6vw,3.2rem);
+ font-weight:800;
+ color:#ffd37a;
+}
+
+#sub.red .tx{
+ color:#ff5365;
+ animation:glitch 2.5s infinite;
+}
+
+@keyframes glitch{
+ 0%,90%,100%{text-shadow:0 2px 20px #000}
+ 93%{
+  text-shadow:5px 0 #0ff,-5px 0 #f00;
+  transform:translateX(6px);
+ }
+ 96%{
+  text-shadow:-5px 0 #0ff,5px 0 #f00;
+  transform:translateX(-6px);
+ }
+}
+
+#title{
+ position:fixed;
+ inset:0;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ pointer-events:none;
+ transition:opacity .4s;
+ z-index:3;
+}
+
+#title h1{
+ font-family:'Noto Serif Bengali',serif;
+ font-weight:800;
+ font-size:clamp(4rem,20vw,13rem);
+ letter-spacing:.08em;
+ background:linear-gradient(#fff,#ffc34d);
+ -webkit-background-clip:text;
+ background-clip:text;
+ color:transparent;
+ animation:appear 3s both;
+}
+
+#title p{
+ letter-spacing:.4em;
+ font-size:.8rem;
+ opacity:.6;
+ margin-top:1rem;
+ animation:appear 3s 1.5s both;
+}
+
+#start{
+ position:fixed;
+ inset:0;
+ z-index:20;
+ background:#000;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:1.6rem;
+ text-align:center;
+ padding:2rem;
+}
+
+#start button{
+ background:none;
+ border:1px solid #ffc34d;
+ color:#ffc34d;
+ padding:1rem 2.4rem;
+ font:500 1.2rem 'Hind Siliguri';
+ letter-spacing:.15em;
+ cursor:pointer;
+ border-radius:40px;
+}
+
+#start button:hover{
+ background:#ffc34d;
+ color:#000;
+}
+
+#start small{
+ opacity:.5;
+ letter-spacing:.12em;
+}
+
+#snd{
+ position:fixed;
+ top:calc(8vh + 1rem);
+ right:1.2rem;
+ background:none;
+ border:0;
+ color:#fff;
+ font-size:1.3rem;
+ opacity:.7;
+ cursor:pointer;
+ z-index:7;
+}
+
+#hint{
+ position:fixed;
+ bottom:calc(8vh + .6rem);
+ left:50%;
+ transform:translateX(-50%);
+ font-size:.75rem;
+ letter-spacing:.25em;
+ opacity:.5;
+ animation:bounce 2s infinite;
+ z-index:5;
+}
+
+@keyframes bounce{
+ 50%{opacity:.1;transform:translate(-50%,5px)}
+}
+
+/* Mobile and iPhone responsive */
+
+#start{
+ min-height:100vh;
+ min-height:100dvh;
+ padding:
+  max(1.5rem,env(safe-area-inset-top))
+  max(1.25rem,env(safe-area-inset-right))
+  max(1.5rem,env(safe-area-inset-bottom))
+  max(1.25rem,env(safe-area-inset-left));
+}
+
+#start button{
+ min-height:48px;
+ padding:.85rem 1.7rem;
+ max-width:100%;
+ -webkit-tap-highlight-color:transparent;
+}
+
+#snd{
+ top:calc(env(safe-area-inset-top) + 8vh + .55rem);
+ right:max(1rem,env(safe-area-inset-right));
+ width:44px;
+ height:44px;
+ border-radius:50%;
+ background:rgba(0,0,0,.28);
+}
+
+#chap{
+ top:calc(env(safe-area-inset-top) + 8vh + .65rem);
+ left:max(1rem,env(safe-area-inset-left));
+ max-width:calc(100vw - 5rem);
+ font-size:clamp(.62rem,2.8vw,.75rem);
+ letter-spacing:.16em;
+ line-height:1.5;
+}
+
+#sub{
+ bottom:calc(env(safe-area-inset-bottom) + 8vh + 1.35rem);
+ padding-left:max(1.15rem,env(safe-area-inset-left));
+ padding-right:max(1.15rem,env(safe-area-inset-right));
+ width:100%;
+}
+
+#sub .who{
+ font-size:clamp(.68rem,2.8vw,.8rem);
+ letter-spacing:.22em;
+ margin-bottom:.45rem;
+}
+
+#sub .tx{
+ font-size:clamp(1.05rem,4.7vw,1.55rem);
+ line-height:1.65;
+ overflow-wrap:anywhere;
+}
+
+#sub.big .tx{
+ font-size:clamp(1.3rem,5.4vw,2rem);
+ line-height:1.55;
+}
+
+#hint{
+ bottom:calc(env(safe-area-inset-bottom) + 8vh + .35rem);
+ width:100%;
+ text-align:center;
+ font-size:.68rem;
+ letter-spacing:.2em;
+ pointer-events:none;
+}
+
+#title{padding:0 1rem}
+
+#title h1{
+ font-size:clamp(3.7rem,19vw,7rem);
+ letter-spacing:.02em;
+ max-width:100%;
+}
+
+#title p{
+ font-size:clamp(.58rem,2.8vw,.8rem);
+ letter-spacing:.25em;
+ line-height:1.8;
+ padding:0 .5rem;
+}
+
+.bar{height:max(6vh,env(safe-area-inset-top))}
+.bar.b{height:max(6vh,env(safe-area-inset-bottom))}
+#bar{top:max(6vh,env(safe-area-inset-top))}
+
+@media(max-width:600px){
+ body{height:2400vh}
+ #sub{bottom:calc(env(safe-area-inset-bottom) + 8vh + 1.15rem)}
+ #sub .tx{max-width:35rem;margin-inline:auto}
+ #start>div{
+  font-size:clamp(1.25rem,5.4vw,1.8rem)!important;
+  line-height:1.8!important;
+ }
+}
+
+@media(max-width:380px){
+ #sub .tx{font-size:1rem}
+ #sub.big .tx{font-size:1.22rem}
+ #chap{letter-spacing:.12em}
+}
+
+@media(max-height:700px) and (max-width:900px){
+ #sub{bottom:calc(env(safe-area-inset-bottom) + 7vh + .75rem)}
+ #sub .tx{line-height:1.48}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="gl"></canvas>
+<div class="grain"></div>
+<div class="vig"></div>
+<div id="flash"></div>
+
+<div class="bar t"></div>
+<div class="bar b"></div>
+<div id="bar"></div>
+
+<div id="chap"></div>
+<button id="snd" aria-label="Sound on or off">🔊</button>
+
+<div id="title">
+ <h1>Nova</h1>
+ <p>একটি গল্প · Shehad-এর পক্ষ থেকে</p>
+</div>
+
+<div id="sub"></div>
+<div id="hint">স্ক্রল করো ↓</div>
+
+<div id="start">
+ <div style="font-family:'Noto Serif Bengali';font-size:clamp(1.4rem,4vw,2.4rem);line-height:1.7">
+  এটা শুধু একটা ওয়েবসাইট না।<br>
+  এটা Nova-কে বোঝার, তার কষ্টকে সম্মান করার গল্প।
+ </div>
+
+ <button id="go">গল্পটি শুরু করো</button>
+ <small>হেডফোন ব্যবহার করতে পারো · ধীরে ধীরে স্ক্রল করো</small>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+
+/* =================================
+   STORY
+================================= */
+
+var LINES=[
+
+ [.05,'','একটা মেয়ে। তার নাম Nova। তার জীবনেও ছিল অনেক আশা, অনেক ইচ্ছা, অনেক না-বলা কথা।',''],
+
+ [.085,'','কিন্তু তার নিজের মনের স্বপ্নগুলো কী ছিল, তা সবাই জানে না। হয়তো সেই কথাগুলো শোনার সুযোগই সে পায়নি।',''],
+
+ [.12,'','পরিবারের সিদ্ধান্তে তাকে Architecture-এ ভর্তি করানো হয়েছিল। বিষয়টি তার নিজের পছন্দ ছিল—এমনটা ধরে নেওয়া ঠিক হবে না।',''],
+
+ [.15,'','তার জীবনের পড়াশোনা, ভবিষ্যৎ আর সিদ্ধান্তগুলো ধীরে ধীরে অন্যদের নিয়ন্ত্রণে চলে যাচ্ছিল।',''],
+
+ [.19,'','তারপর Shehad-এর সঙ্গে Nova-র সম্পর্কের কথা পরিবারে জানাজানি হলো।',''],
+
+ [.23,'','এরপর তার জীবনে নেমে এলো আরও কঠিন সময়।',''],
+
+ [.265,'','পরিবারের সিদ্ধান্তে তার পড়াশোনা বন্ধ করে দেওয়া হলো। যে পড়াশোনা তার জীবনের অংশ ছিল, সেখান থেকে তাকে দূরে সরিয়ে দেওয়া হলো।',''],
+
+ [.30,'','শুধু পড়াশোনাই থামেনি। তার বই, খাতা, নোট, পড়ার জিনিসপত্র—যেগুলো দিয়ে সে শিখত, সেগুলোও নষ্ট করে দেওয়া হলো।',''],
+
+ [.34,'','একজন মানুষের কাছে বই-খাতা শুধু কাগজ নয়। তার মধ্যে থাকে সময়, চেষ্টা, স্মৃতি আর নিজের মতো করে এগিয়ে যাওয়ার সুযোগ।',''],
+
+ [.38,'','সেই জিনিসগুলো হারিয়ে Nova হয়তো শুধু পড়ার উপকরণই হারায়নি; হারিয়েছে নিজের জীবনের ওপর নিয়ন্ত্রণ থাকার অনুভূতিটাও।',''],
+
+ [.42,'Nova','আমি এখন আর স্বপ্ন দেখতে চাই না।',''],
+
+ [.45,'Nova','যা আশা করি, তার উল্টোটাই হয়। আবার যদি কিছু চাই, আবার যদি কিছু স্বপ্ন দেখি—আরও কষ্ট পাব না তো?',''],
+
+ [.49,'','একসময় যে মানুষ ভবিষ্যৎ নিয়ে ভাবতে পারত, সে এখন ভবিষ্যতের কথা ভাবতেও ভয় পায়।',''],
+
+ [.53,'','এই ভয়কে ছোট করে দেখার কিছু নেই। এত কিছুর পর ভেঙে পড়া অস্বাভাবিক নয়।',''],
+
+ [.57,'Shehad','Nova, তোমাকে আজই শক্ত হতে হবে—এমন কোনো কথা আমি বলব না।',''],
+
+ [.60,'Shehad','তোমার কষ্ট সত্যি। তোমার সঙ্গে যা হয়েছে, সেটা সহজ কিছু নয়। আমি তোমাকে শুধু “সব ভুলে যাও” বলেও থামতে চাই না।',''],
+
+ [.635,'Shehad','তোমার বইগুলো নষ্ট হয়ে গেছে, পড়াশোনা থেমে গেছে। আমি জানি, শুধু কিছু কথা বললেই সেগুলো ফিরে আসবে না।',''],
+
+ [.67,'Shehad','আর তোমার নিজের স্বপ্ন কী ছিল, সেটাও আমি তোমার হয়ে ঠিক করে দিতে পারি না। সেটা তোমার নিজের কথা, তোমার নিজের অনুভূতি।',''],
+
+ [.705,'Shehad','তোমাকে Architecture ভালোবাসতেই হবে, আবার পড়াশোনা শুরু করতেই হবে—এমন কোনো চাপও আমি দিতে চাই না।',''],
+
+ [.74,'Shehad','আজ যদি তুমি কিছুই ভাবতে না চাও, তাতেও সমস্যা নেই। একটু বিশ্রাম নাও। নিজের মনকে সময় দাও।',''],
+
+ [.775,'Nova','কিন্তু যদি আমার জীবনে আর কিছুই নিজের মতো করে না হয়?',''],
+
+ [.81,'Shehad','তাহলে আমরা অন্তত তোমার নিজের মতামতটাকে গুরুত্ব দিতে শিখব। তোমার জীবন নিয়ে সিদ্ধান্তে তোমার কথার মূল্য আছে।',''],
+
+ [.845,'Shehad','আমি তোমার হয়ে সব ঠিক করে দিতে পারব—এমন মিথ্যা প্রতিশ্রুতি দেব না। কিন্তু তোমার কথা শুনব, তোমাকে বুঝতে চেষ্টা করব।',''],
+
+ [.88,'Shehad','তুমি যখন প্রস্তুত হবে, তখন তোমার নিজের ইচ্ছা, পড়াশোনা আর ভবিষ্যৎ নিয়ে ধীরে ধীরে ভাবব। কোনো তাড়া নেই।',''],
+
+ [.905,'','কোনো বড় কথা নয়। কোনো প্রতিশ্রুতির প্রয়োজন নেই। Shehad ধীরে Nova-র কাছে এগিয়ে এলো।',''],
+
+ [.925,'','সে Nova-কে আলতো করে জড়িয়ে ধরল। যেন কিছুক্ষণের জন্য Nova-কে বলতে চাইল—তোমার কষ্টের সময়েও তুমি একা নও।',''],
+
+ [.945,'Nova','আমি জানি না সামনে কী হবে। শুধু চাই, একদিন যেন নিজের জীবন নিয়ে নিজের মতো করে ভাবতে পারি।',''],
+
+ [.965,'Shehad','সেটুকু চাওয়ার অধিকার তোমার আছে, Nova। তোমার জীবন, তোমার মতামত, তোমার ভবিষ্যৎ—এসব গুরুত্বপূর্ণ।','big'],
+ [.975,'Shehad','Nova, আল্লাহ যতদিন আমাকে বাঁচিয়ে রাখেন, আমি তোমার পাশে আছি। শুধু আজ নয়, সারাজীবন তোমার সঙ্গে থাকতে চাই। ইনশাআল্লাহ, আজীবন তোমার পাশে থাকব।','big'],
+[.99,'','গল্পটা এখানেই শেষ নয়। Nova-র জীবন, তার নিজের সিদ্ধান্ত এবং তার ভবিষ্যতের জন্য নতুন একটা পথ এখনও বাকি।','big']
+
+ [.99,'','গল্পটা এখানেই শেষ নয়। সবকিছু আজই বদলে যায়নি। কিন্তু Nova-র কথা শোনার, তাকে সম্মান করার এবং নিজের মতো করে বাঁচার অধিকার এখনও আছে।','big']
+
+];
+
+var CH=[
+ [0,'দৃশ্য ১ · না-বলা কথাগুলো'],
+ [.23,'দৃশ্য ২ · থেমে যাওয়া পড়াশোনা'],
+ [.52,'দৃশ্য ৩ · ভেতরের ভয়'],
+ [.77,'দৃশ্য ৪ · Shehad-এর পাশে থাকা'],
+ [.90,'দৃশ্য ৫ · একটি আলিঙ্গন']
+];
+
+/* =================================
+   THREE JS SETUP
+================================= */
+
+var P=[0,.25,.3,.5,.58,.8,1];
+
+var BG=[
+ 0x070818,
+ 0x0b0f2a,
+ 0x1c0208,
+ 0x0d0810,
+ 0x0e1230,
+ 0x4a2214,
+ 0x7a4224
+].map(function(h){return new THREE.Color(h)});
+
+var LC=[
+ 0x8c7bff,
+ 0x8c7bff,
+ 0xff2040,
+ 0x6070ff,
+ 0x9ab0ff,
+ 0xffb347,
+ 0xffd37a
+].map(function(h){return new THREE.Color(h)});
+
+function sm(a,b,x){
+ x=Math.min(1,Math.max(0,(x-a)/(b-a)));
+ return x*x*(3-2*x);
+}
+
+function grade(A,p,o){
+ for(var i=0;i<P.length-1;i++){
+  if(p<=P[i+1]){
+   o.copy(A[i]).lerp(
+    A[i+1],
+    (p-P[i])/(P[i+1]-P[i])
+   );
+   return;
+  }
+ }
+ o.copy(A[A.length-1]);
+}
+
+var cv=document.getElementById('gl');
+
+var R=new THREE.WebGLRenderer({
+ canvas:cv,
+ antialias:true,
+ alpha:false
+});
+
+R.setPixelRatio(Math.min(devicePixelRatio,2));
+
+var S=new THREE.Scene();
+S.fog=new THREE.FogExp2(0x070818,.03);
+
+var C=new THREE.PerspectiveCamera(55,1,.1,300);
+
+var amb=new THREE.AmbientLight(0x404060,.6);
+var dl=new THREE.DirectionalLight(0xffffff,1.6);
+
+dl.position.set(0,4,-8);
+S.add(amb,dl);
+
+var dark=new THREE.MeshStandardMaterial({
+ color:0x0c0c14,
+ roughness:1
+});
+
+/* Ground atmosphere */
+
+var hill=new THREE.Mesh(
+ new THREE.SphereGeometry(70,64,32),
+ new THREE.MeshStandardMaterial({
+  color:0x0b0e1a,
+  roughness:1
+ })
+);
+
+hill.position.y=-70;
+S.add(hill);
+
+/* Stars */
+
+var N=2500;
+var sp=new Float32Array(N*3);
+
+for(var i=0;i<N;i++){
+ var a=Math.random()*6.28;
+ var e=Math.random()*1.4+.05;
+ var r=120;
+
+ sp[i*3]=Math.cos(a)*r*Math.cos(e*.6);
+ sp[i*3+1]=Math.sin(e)*r*.7+5;
+ sp[i*3+2]=-Math.abs(Math.sin(a))*r;
+}
+
+var sg=new THREE.BufferGeometry();
+
+sg.setAttribute(
+ 'position',
+ new THREE.BufferAttribute(sp,3)
+);
+
+var stars=new THREE.Points(
+ sg,
+ new THREE.PointsMaterial({
+  size:.5,
+  color:0xffffff,
+  transparent:true,
+  opacity:.9,
+  fog:false
+ })
+);
+
+S.add(stars);
+
+/* Sun */
+
+var sun=new THREE.Mesh(
+ new THREE.SphereGeometry(5,32,32),
+ new THREE.MeshBasicMaterial({
+  color:0xffd37a,
+  fog:false
+ })
+);
+
+sun.position.set(0,-10,-70);
+S.add(sun);
+
+function glowTex(){
+ var c=document.createElement('canvas');
+ c.width=c.height=128;
+
+ var x=c.getContext('2d');
+
+ var g=x.createRadialGradient(64,64,0,64,64,64);
+
+ g.addColorStop(0,'rgba(255,200,100,1)');
+ g.addColorStop(1,'rgba(255,200,100,0)');
+
+ x.fillStyle=g;
+ x.fillRect(0,0,128,128);
+
+ return new THREE.CanvasTexture(c);
+}
+
+var GT=glowTex();
+
+var sunGlow=new THREE.Sprite(
+ new THREE.SpriteMaterial({
+  map:GT,
+  blending:THREE.AdditiveBlending,
+  fog:false,
+  transparent:true,
+  depthWrite:false
+ })
+);
+
+sunGlow.scale.set(60,60,1);
+S.add(sunGlow);
+
+/* =================================
+   3D CHARACTER WITH ARMS AND HANDS
+================================= */
+
+function person(h,hair,skinColor){
+
+ var g=new THREE.Group();
+
+ var cloth=new THREE.MeshStandardMaterial({
+  color:hair?0x17131d:0x101722,
+  roughness:.9
+ });
+
+ var skin=new THREE.MeshStandardMaterial({
+  color:skinColor,
+  roughness:.85
+ });
+
+ /* Body */
+
+ var body=new THREE.Mesh(
+  new THREE.CylinderGeometry(.13,.36*h,1.3*h,20),
+  cloth
+ );
+
+ body.position.y=.65*h;
+ g.add(body);
+
+ /* Head */
+
+ var head=new THREE.Mesh(
+  new THREE.SphereGeometry(.18*h,24,20),
+  skin
+ );
+
+ head.position.y=1.45*h;
+ g.add(head);
+
+ /* Hair */
+
+ if(hair){
+
+  var hairCap=new THREE.Mesh(
+   new THREE.SphereGeometry(.19*h,20,16,0,Math.PI*2,0,Math.PI*.65),
+   new THREE.MeshStandardMaterial({color:0x08070c})
+  );
+
+  hairCap.position.y=1.49*h;
+  g.add(hairCap);
+
+  var backHair=new THREE.Mesh(
+   new THREE.CylinderGeometry(.17,.13,.65*h,16),
+   new THREE.MeshStandardMaterial({color:0x08070c})
+  );
+
+  backHair.position.set(0,1.18*h,-.08);
+  g.add(backHair);
+ }
+
+ /* Arms */
+
+ function makeArm(side){
+
+  var pivot=new THREE.Group();
+
+  pivot.position.set(side*.25,1.05*h,0);
+
+  var arm=new THREE.Mesh(
+   new THREE.CylinderGeometry(.075*h,.09*h,.78*h,16),
+   cloth
+  );
+
+  arm.position.y=-.34*h;
+
+  /* Hand */
+
+  var hand=new THREE.Mesh(
+   new THREE.SphereGeometry(.085*h,16,12),
+   skin
+  );
+
+  hand.position.y=-.75*h;
+
+  pivot.add(arm);
+  pivot.add(hand);
+  g.add(pivot);
+
+  return pivot;
+ }
+
+ g.userData.leftArm=makeArm(-1);
+ g.userData.rightArm=makeArm(1);
+
+ return g;
+}
+
+/* Characters */
+
+var girl=person(1,true,0xb27d65);
+var you=person(1.12,false,0xb98b72);
+
+S.add(girl,you);
+
+/* =================================
+   SHADOW FIGURE
+================================= */
+
+var mon=new THREE.Group();
+
+var mb=new THREE.Mesh(
+ new THREE.CylinderGeometry(.15,1,6,16),
+ new THREE.MeshBasicMaterial({color:0x000000})
+);
+
+mb.position.y=3;
+mon.add(mb);
+
+[-.22,.22].forEach(function(x){
+
+ var e=new THREE.Mesh(
+  new THREE.SphereGeometry(.09,8,8),
+  new THREE.MeshBasicMaterial({
+   color:0xff1030,
+   fog:false
+  })
+ );
+
+ e.position.set(x,5.1,.45);
+ mon.add(e);
+});
+
+mon.position.set(0,0,-5);
+S.add(mon);
+
+/* =================================
+   FLOATING LIGHTS
+================================= */
+
+var L=[];
+
+for(var i=0;i<38;i++){
+
+ var m=new THREE.Mesh(
+  new THREE.OctahedronGeometry(.13),
+  new THREE.MeshBasicMaterial({color:0xffc34d})
+ );
+
+ m.scale.y=1.5;
+
+ var h=new THREE.Sprite(
+  new THREE.SpriteMaterial({
+   map:GT,
+   blending:THREE.AdditiveBlending,
+   transparent:true,
+   depthWrite:false
+  })
+ );
+
+ h.scale.set(1.1,1.1,1);
+ m.add(h);
+
+ var x=(Math.random()-.5)*14;
+ var z=-1-Math.random()*9;
+
+ m.userData={
+  x:x,
+  z:z,
+  by:1.6+Math.random()*6,
+  i:i,
+  gy:.12-(x*x+z*z)/140
+ };
+
+ S.add(m);
+ L.push(m);
+}
+
+/* =================================
+   RAIN
+================================= */
+
+var RN=700;
+var rp=new Float32Array(RN*6);
+
+for(var i=0;i<RN;i++){
+
+ var x=(Math.random()-.5)*22;
+ var y=Math.random()*14;
+ var z=-9+Math.random()*16;
+
+ rp.set([
+  x,y,z,
+  x-.05,y-.5,z
+ ],i*6);
+}
+
+var rg=new THREE.BufferGeometry();
+
+rg.setAttribute(
+ 'position',
+ new THREE.BufferAttribute(rp,3)
+);
+
+var rain=new THREE.LineSegments(
+ rg,
+ new THREE.LineBasicMaterial({
+  color:0x9ab0ff,
+  transparent:true,
+  opacity:0
+ })
+);
+
+S.add(rain);
+
+/* Resize */
+
+function rs(){
+ R.setSize(innerWidth,innerHeight,false);
+ C.aspect=innerWidth/innerHeight;
+ C.updateProjectionMatrix();
+}
+
+addEventListener('resize',rs);
+
+addEventListener('orientationchange',function(){
+ setTimeout(rs,250);
+});
+
+rs();
+
+/* =================================
+   AUDIO
+================================= */
+
+var AC,pads=[],nz,ng,started=false,muted=false,mg,lp;
+
+function audio(){
+
+ AC=new (window.AudioContext||window.webkitAudioContext)();
+
+ mg=AC.createGain();
+ mg.gain.value=.5;
+ mg.connect(AC.destination);
+
+ lp=AC.createBiquadFilter();
+ lp.type='lowpass';
+ lp.frequency.value=700;
+ lp.connect(mg);
+
+ [110,164.8,220,277.2].forEach(function(f,i){
+
+  var o=AC.createOscillator();
+  o.type=i?'sine':'triangle';
+  o.frequency.value=f;
+
+  var g=AC.createGain();
+  g.gain.value=i<2?.12:0;
+
+  o.connect(g);
+  g.connect(lp);
+  o.start();
+
+  pads.push({o:o,g:g,f:f});
+ });
+
+ var b=AC.createBuffer(1,AC.sampleRate*2,AC.sampleRate);
+ var d=b.getChannelData(0);
+
+ for(var i=0;i<d.length;i++){
+  d[i]=Math.random()*2-1;
+ }
+
+ nz=AC.createBufferSource();
+ nz.buffer=b;
+ nz.loop=true;
+
+ var bp=AC.createBiquadFilter();
+ bp.type='highpass';
+ bp.frequency.value=2500;
+
+ ng=AC.createGain();
+ ng.gain.value=0;
+
+ nz.connect(bp);
+ bp.connect(ng);
+ ng.connect(mg);
+
+ nz.start();
+}
+
+function sound(p,n,d){
+
+ if(!AC)return;
+
+ var t=AC.currentTime;
+
+ pads[1].o.frequency.setTargetAtTime(
+  n>.5?116.5:164.8,t,.8
+ );
+
+ pads[0].o.frequency.setTargetAtTime(
+  n>.5?103.8:110,t,.8
+ );
+
+ pads[2].g.gain.setTargetAtTime(d*.1,t,.8);
+ pads[3].g.gain.setTargetAtTime(d*.08,t,.8);
+
+ lp.frequency.setTargetAtTime(
+  500+d*2200+n*200,t,.6
+ );
+
+ ng.gain.setTargetAtTime(n*.12,t,.4);
+}
+
+/* Start button */
+
+document.getElementById('go').onclick=function(){
+
+ if(!started){
+  audio();
+  started=true;
+ }
+
+ document.getElementById('start').style.display='none';
+ scrollTo(0,0);
+};
+
+/* Sound button */
+
+document.getElementById('snd').onclick=function(){
+
+ muted=!muted;
+
+ if(AC){
+  mg.gain.value=muted?0:.5;
+ }
+
+ this.textContent=muted?'🔇':'🔊';
+};
+
+/* =================================
+   SCROLL CONTROL
+================================= */
+
+var p=0,tp=0,mx=0,my=0,cur=-1;
+
+var sub=document.getElementById('sub');
+var chap=document.getElementById('chap');
+
+var tmp=new THREE.Color();
+var tmp2=new THREE.Color();
+
+var flash=document.getElementById('flash');
+var clk=new THREE.Clock();
+
+function up(){
+
+ var h=document.documentElement.scrollHeight-innerHeight;
+
+ tp=h>0?scrollY/h:0;
+
+ document.getElementById('bar').style.width=tp*100+'%';
+
+ document.getElementById('hint').style.display=
+  scrollY>60?'none':'block';
+
+ document.getElementById('title').style.opacity=
+  1-sm(0,.04,tp);
+}
+
+addEventListener('scroll',up);
+up();
+
+addEventListener('pointermove',function(e){
+
+ mx=e.clientX/innerWidth-.5;
+ my=e.clientY/innerHeight-.5;
+
+});
+
+/* =================================
+   MAIN ANIMATION
+================================= */
+
+function loop(){
+
+ var t=clk.getElapsedTime();
+
+ p+=(tp-p)*.05;
+
+ var n=sm(.25,.3,p)*(1-sm(.5,.56,p));
+ var f=sm(.4,.5,p);
+ var r=sm(.8,.95,p);
+ var ap=sm(.55,.65,p);
+ var d=sm(.55,.9,p);
+
+ /* Color transitions */
+
+ grade(BG,p,tmp);
+
+ R.setClearColor(tmp);
+ S.fog.color.copy(tmp);
+
+ grade(LC,p,tmp2);
+
+ dl.color.copy(tmp2);
+ dl.intensity=1.2+d*2;
+ amb.intensity=.5+d*.5;
+
+ /* Camera */
+
+ var shake=n*.07*Math.sin(t*40);
+
+ C.position.set(
+  mx*1.2+shake,
+  1.1+sm(.8,1,p)*1.2-my*.6,
+  8-3.2*sm(0,.2,p)+1.5*sm(.5,.8,p)+n*(-1.3)
+ );
+
+ C.lookAt(0,1.4+r*2.5+n*.5,0);
+ C.rotation.z+=n*.03*Math.sin(t*3);
+
+ /* =================================
+    HUG ANIMATION
+ ================================= */
+
+ /*
+   Hug begins at 84% scroll.
+   Shehad moves towards Nova.
+   Both characters bring their arms around
+   each other and stay in the embrace.
+ */
+
+ var hug=sm(.84,.925,p);
+
+ /* Nova position */
+
+ var breathing=Math.sin(t*2.2)*.018*hug;
+
+ girl.position.set(
+  -.35*hug,
+  breathing,
+  0
+ );
+
+ girl.rotation.y=-.12*hug;
+ girl.rotation.z=n*.02*Math.sin(t*30);
+ girl.rotation.x=-.06*hug;
+
+ girl.scale.y=1-f*.12*(1-sm(.58,.7,p));
+
+ /* Shehad approaches Nova */
+
+ var normalShehadX=4-3.1*ap;
+ var hugShehadX=.35;
+
+ you.position.set(
+  normalShehadX+(hugShehadX-normalShehadX)*hug,
+  -breathing,
+  0
+ );
+
+ you.rotation.y=.12*hug;
+ you.rotation.x=-.06*hug;
+ you.visible=ap>.01;
+ you.scale.y=1;
+
+ /* Nova's right arm wraps around Shehad */
+
+ girl.userData.rightArm.rotation.z=
+  THREE.MathUtils.lerp(0,Math.PI/2,hug);
+
+ /* Shehad's left arm wraps around Nova */
+
+ you.userData.leftArm.rotation.z=
+  THREE.MathUtils.lerp(0,-Math.PI/2,hug);
+
+ /* Outer arms */
+
+ girl.userData.leftArm.rotation.z=
+  -.08*Math.sin(t*2)*hug;
+
+ you.userData.rightArm.rotation.z=
+  .08*Math.sin(t*2)*hug;
+
+ /* Small hand movement */
+
+ girl.userData.rightArm.rotation.x=
+  .04*Math.sin(t*1.8)*hug;
+
+ you.userData.leftArm.rotation.x=
+  -.04*Math.sin(t*1.8)*hug;
+
+ /* Gentle embrace movement */
+
+ girl.position.y+=Math.sin(t*2)*.008*hug;
+ you.position.y-=Math.sin(t*2)*.008*hug;
+
+ /* Hair movement */
+
+ if(girl.userData.scarf){
+  girl.userData.scarf.rotation.z=
+   Math.sin(t*3)*.25*(1+r);
+ }
+
+ /* =================================
+    SHADOW ANIMATION
+ ================================= */
+
+ mon.scale.y=.01+n*1.2;
+ mon.scale.x=mon.scale.z=.5+n*.9;
+ mon.position.z=-6+n*2.6;
+ mon.visible=n>.02;
+
+ /* Sun */
+
+ sun.position.y=-12+d*22;
+ sunGlow.position.copy(sun.position);
+ sunGlow.material.opacity=d*.9;
+
+ stars.material.opacity=.9-d*.9;
+
+ /* Floating lights */
+
+ L.forEach(function(m){
+
+  var u=m.userData;
+
+  var y=u.by+Math.sin(t*.8+u.i)*.18;
+
+  y=y+(u.gy-y)*f*(1-r)+r*(14+u.i%7);
+
+  m.position.set(
+   u.x+Math.sin(t*.5+u.i)*.2,
+   y,
+   u.z
+  );
+
+  m.rotation.y=t+u.i;
+
+  m.material.color.copy(tmp2).lerp(
+   new THREE.Color(0xffc34d),.6
+  );
+
+ });
+
+ /* Rain */
+
+ rain.material.opacity=Math.max(
+  n,
+  sm(.3,.4,p)*(1-sm(.5,.6,p))
+ )*.55;
+
+ var a=rg.attributes.position.array;
+
+ for(var i=0;i<RN;i++){
+
+  a[i*6+1]-=.45;
+  a[i*6+4]-=.45;
+
+  if(a[i*6+1]<0){
+   a[i*6+1]=14;
+   a[i*6+4]=13.5;
+  }
+ }
+
+ rg.attributes.position.needsUpdate=true;
+
+ /* Lightning */
+
+ flash.style.opacity=
+  (n>.5&&Math.sin(t*2.3)>.985)?.35:0;
+
+ /* =================================
+    SUBTITLES
+ ================================= */
+
+ var k=-1;
+
+ for(var i=0;i<LINES.length;i++){
+  if(p>=LINES[i][0])k=i;
+ }
+
+ if(k!==cur){
+
+  cur=k;
+
+  if(k<0){
+
+   sub.innerHTML='';
+
+  }else{
+
+   var l=LINES[k];
+
+   sub.className=l[3];
+
+   sub.innerHTML=
+    (l[1]?'<span class="who">'+l[1]+'</span>':'')+
+    '<div class="tx">'+l[2]+'</div>';
+
+   void sub.offsetWidth;
+
+   sub.classList.add('show');
+  }
+ }
+
+ /* Chapter */
+
+ var c='';
+
+ CH.forEach(function(x){
+  if(p>=x[0]&&p>.02)c=x[1];
+ });
+
+ chap.textContent=c;
+
+ /* Audio */
+
+ if(started&&!muted){
+  sound(p,n,d);
+ }
+
+ /* Render */
+
+ R.render(S,C);
+
+ requestAnimationFrame(loop);
+}
+
+loop();
+
+</script>
+</body>
+</html>
